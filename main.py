@@ -13,12 +13,15 @@ def get_webhook():
 
 @app.route('/', methods=['POST'])
 def post_webhook():
-    data = request.json
+    sender, message = _parse(request.json)
+    facebook_replier.reply(sender, message)
+    return "ok", 200
+
+def _parse(data):
     messaging_data = _get_entry_messaging_data(data)
     sender = _get_sender(messaging_data)
     message = _get_message(messaging_data)
-    facebook_replier.reply(sender, message)
-    return "ok", 200
+    return sender, message
 
 def _get_sender(messaging_data):
     return messaging_data['sender']['id']
