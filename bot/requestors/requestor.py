@@ -15,11 +15,11 @@ class Requestor(object):
 
 	def post(self, params, headers, payload):
 		url = self._get_url(params)
-		self._post_request(url, headers, payload)
+		return self._post_request(url, headers, payload)
 
-	def get(self, params, headers):
+	def get(self, params, headers=None):
 		url = self._get_url(params)
-		self._get_request(url, headers)
+		return self._get_request(url)
 
 	def _get_url(self, params):
 		return self.request_url + urllib.urlencode(params)
@@ -33,16 +33,16 @@ class Requestor(object):
 				headers=headers,
 			)
 			logging.debug(result.content)
+			return result.content
 		except urlfetch.Error as e:
 			logging.error(e.message)
 
-	def _get_request(self, url, headers):
+	def _get_request(self, url):
 		try:
 			result = urlfetch.fetch(
 				url=url,
 				method=get_request,
-				headers=headers,
 			)
-			logging.debug(result.content)
+			return result.content
 		except urlfetch.Error as e:
 			logging.error(e.message)

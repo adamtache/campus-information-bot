@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from bot.bot import CampusBot
-from util.facebook import facebook_parser
-
 from flask import Flask, request
+from bot.request_handler import RequestHandler
  
 app = Flask(__name__)
+bot = CampusBot()
+request_handler = RequestHandler(bot)
 
 @app.route('/', methods=['GET'])
 def get_webhook():
@@ -14,8 +15,7 @@ def get_webhook():
 
 @app.route('/', methods=['POST'])
 def post_webhook():
-	sender, message = facebook_parser.parse(request.json)
-	CampusBot().handle(sender, message)
+	request_handler.handle(request)
 	return "ok", 200
 
 @app.errorhandler(404)

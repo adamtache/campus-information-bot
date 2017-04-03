@@ -35,13 +35,9 @@ class GetStartedButton(object):
 
 	def _get_payload(self):
 		return json.dumps(
-        	{
-            	"setting_type": "call_to_actions",
-            	"thread_state": "new_thread",
-            	"call_to_actions": [
-                	{
-                    	"payload": "GET_STARTED_PAYLOAD"
-                	}
-            	]
-        	}
-    	)
+			{
+				"get_started":{
+					"payload":"GET_STARTED_PAYLOAD"
+				}
+			}
+		)

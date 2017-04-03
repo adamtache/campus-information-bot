@@ -15,6 +15,8 @@ class Menu(object):
 		self._make_post_request()
 
 	def _make_post_request(self):
+		"""Getting started button required to be POST'd first
+		"""
 		params = self._get_POST_params()
 		headers = self._get_headers()
 		payload = self._get_payload()
@@ -42,7 +44,7 @@ class Menu(object):
 				"persistent_menu": [
 					{
 						"locale": "default",
-						"composer_input_disabled": True,
+						"composer_input_disabled": False,
 						"call_to_actions": [
 							self._get_actions()
 						]
