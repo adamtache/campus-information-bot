@@ -28,14 +28,16 @@ class Greeter(object):
 		}
 
 	def _get_payload(self):
-		return json.dumps({
-		  "greeting":[
+		return json.dumps(
 			{
-			  "locale":"default",
-			  "text": self._get_greeting_text()
+				"greeting": [
+					{
+						"locale": "default",
+						"text": self._get_greeting_text()
+					}
+				]
 			}
-		  ] 
-		})
+		)
 
 	def _get_greeting_text(self):
 		return "Hello {{user_first_name}}!"
