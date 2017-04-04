@@ -3,7 +3,8 @@ import json
 
 from requestor import Requestor
 
-FACEBOOK_GET_STARTED_BUTTON_URL = "https://graph.facebook.com/v2.6/me/messenger_profile"
+FACEBOOK_GET_STARTED_BUTTON_URL = "https://graph.facebook.com/v2.6/me/messenger_profile?"
+GET_STARTED_PAYLOAD = "GET_STARTED_PAYLOAD"
 
 class GetStartedButton(object):
 
@@ -34,10 +35,8 @@ class GetStartedButton(object):
 		}
 
 	def _get_payload(self):
-		return json.dumps(
-			{
-				"get_started":{
-					"payload":"GET_STARTED_PAYLOAD"
-				}
+		return json.dumps({
+			"get_started": {
+				"payload": GET_STARTED_PAYLOAD
 			}
-		)
+		})

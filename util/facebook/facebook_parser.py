@@ -125,6 +125,11 @@ def _get_text_message(messaging_event):
 	quick_reply = _get_quick_reply(message.get('quick_reply'))
 	return TextMessage(mid, text, attachments, quick_reply)
 
+def _get_postback(messaging_event):
+	postback = messaging_event['postback']
+	payload = postback['payload']
+	return Postback(payload)
+
 def _get_attachments(raw_attachments):
 	if raw_attachments is None:
 		return []

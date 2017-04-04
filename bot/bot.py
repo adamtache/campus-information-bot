@@ -6,7 +6,7 @@ from requestors.facebook_menu import Menu
 from requestors.facebook_replier import Replier
 from requestors.facebook_user import FacebookUserRequestor
 
-ACCESS_TOKEN = "EAAGAoXpiPKIBADJl5MoELaDPr0K3n1UaXwZAJaJ2RFPueK9OWMopPOWNLI1hzhFhCWMEhgZCmcqVuZAyNIsfsABOh8R6fLThZBNLkyDyXpGOUvd1cJrBbFoa7bcGIwyPUUZBWswgsddHIruU2WrorQ4pDdgubF0i0ZCbEcKZASO0gZDZD"
+ACCESS_TOKEN = "EAAGAoXpiPKIBAHLBTNSpikVIM4wfAJ2EvQrsKhvrzmmInGMEMblXbixYGR2cBiUrAv7ebA0HRDImyYp5VlMqZCREPASBWhWFQsu3ofdCBTdqJlIdGzrrJXDweZC6D9v1hDb9klXBZBS4JrVky1tOrfvoFyiQzPpwElB7vH7JwZDZD"
 
 class CampusBot(object):
 
@@ -16,7 +16,10 @@ class CampusBot(object):
 		self._setup_components()
 
 	def reply_to(self, sender, message):
-		self.replier.reply_to(sender, message)
+		self.replier.reply_to(sender, message, self.user)
+
+	def reply_welcome(self, sender):
+		self.replier.reply_welcome(sender, self.user)
 
 	def setup_facebook_user(self, sender):
 		"""User info only available after a person has sent a message
@@ -36,12 +39,9 @@ class CampusBot(object):
 
 	def _setup_components(self):
 		self.get_started_button.setup()
+		self.greeter.setup()
 		self.menu.setup()
 
 	def _setup_user(self, user_json):
 		facebook_user = User(user_json)
 		self.user = facebook_user
-		self._setup_greeter()
-
-	def _setup_greeter(self):
-		self.greeter.setup(self.user)

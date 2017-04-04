@@ -39,19 +39,17 @@ class Menu(object):
 		}
 
 	def _get_payload(self):
-		return json.dumps(
-			{
-				"persistent_menu": [
-					{
-						"locale": "default",
-						"composer_input_disabled": False,
-						"call_to_actions": [
-							self._get_actions()
-						]
-					}
-				]
-			}
-		)
+		return json.dumps({
+			"persistent_menu": [
+				{
+					"locale": "default",
+					"composer_input_disabled": False,
+					"call_to_actions": [
+						self._get_actions()
+					]
+				}
+			]
+		})
 
 	def _get_actions(self):
 		return {

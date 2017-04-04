@@ -4,6 +4,7 @@ from util.facebook.facebook_parser import InvalidCallback
 from util.facebook.facebook_parser import Callback
 from util.facebook.facebook_parser import DATA_TYPE_MESSAGE
 from util.facebook.facebook_parser import DATA_TYPE_POSTBACK
+from requestors.facebook_get_started_button import GET_STARTED_PAYLOAD
 
 class RequestHandler(object):
 
@@ -20,7 +21,7 @@ class RequestHandler(object):
 
 	def _handle_callback(self, callback):
 		sender = callback.sender
-		# self._setup_fb_user_if_needed(sender)
+		self._setup_fb_user_if_needed(sender)
 		for data in callback.data:
 			data_type = data.data_type
 			if data_type is DATA_TYPE_MESSAGE:
@@ -36,4 +37,9 @@ class RequestHandler(object):
 		self.bot.reply_to(sender, message)
 
 	def _handle_postback(self, postback, sender):
-		pass
+		payload = postback.payload
+		if payload == GET_STARTED_PAYLOAD:
+			self._handle_get_started(sender)
+
+	def _handle_get_started(self, sender):
+		self.bot.reply_welcome(sender)
