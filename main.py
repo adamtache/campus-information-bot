@@ -15,8 +15,7 @@ def get_webhook():
 
 @app.route('/', methods=['POST'])
 def post_webhook():
-	request_handler.handle(request)
-	return "ok", 200
+	return request_handler.handle(request)
 
 @app.errorhandler(404)
 def page_not_found(e):

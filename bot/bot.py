@@ -6,14 +6,12 @@ from requestors.facebook_menu import Menu
 from requestors.facebook_replier import Replier
 from requestors.facebook_user import FacebookUserRequestor
 
-ACCESS_TOKEN = "EAAGAoXpiPKIBAKYXpZAeAPi2Br4byjeFibinY4j3ZANvqOUwNggGvnRLIIu7uyfab5MEiOeSqiGeZBe0E6va4DTCaY38oR1p922VsYRsdTeiey5QBkJfM7XJAsnYObZAWaET1HXidQqmnlHJr5WhQ6ZAm9ps7Cudx8bAfHNdSbwZDZD"
+ACCESS_TOKEN = "EAAGAoXpiPKIBADJl5MoELaDPr0K3n1UaXwZAJaJ2RFPueK9OWMopPOWNLI1hzhFhCWMEhgZCmcqVuZAyNIsfsABOh8R6fLThZBNLkyDyXpGOUvd1cJrBbFoa7bcGIwyPUUZBWswgsddHIruU2WrorQ4pDdgubF0i0ZCbEcKZASO0gZDZD"
 
 class CampusBot(object):
 
 	def __init__(self):
 		self.access_token = ACCESS_TOKEN
-
-	def start(self):
 		self._create_components()
 		self._setup_components()
 
@@ -23,6 +21,8 @@ class CampusBot(object):
 	def setup_facebook_user(self, sender):
 		"""User info only available after a person has sent a message
 		to bot or clicked the "Send to Messenger" plugin"""
+		if self.user is not None:
+			return
 		user_requestor = FacebookUserRequestor(self.access_token, sender)
 		user_json = user_requestor.get_user_json()
 		self._setup_user(user_json)

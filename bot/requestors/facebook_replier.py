@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 
 from requestor import Requestor
@@ -11,9 +12,13 @@ class Replier(object):
 		self.requestor = Requestor(FACEBOOK_REPLY_URL)
 
 	def reply_to(self, recipient_id, message):
+		# Obviously temporary
+		self._echo(recipient_id, message.text)
+
+	def _echo(self, recipient_id, text):
 		params = self._get_params()
 		headers = self._get_headers()
-		payload = self._get_payload(recipient_id, message)
+		payload = self._get_payload(recipient_id, text)
 		self.requestor.post(params, headers, payload)
 
 	def _get_params(self):
