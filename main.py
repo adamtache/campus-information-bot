@@ -2,7 +2,10 @@
 from bot.bot import CampusBot
 from flask import Flask, request
 from bot.request_handler import RequestHandler
+from requests_toolbelt.adapters import appengine
  
+# Use AppEngineAdapter to support GAE with requests
+appengine.monkeypatch()
 app = Flask(__name__)
 bot = CampusBot()
 request_handler = RequestHandler(bot)
