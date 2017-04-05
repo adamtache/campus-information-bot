@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from util.facebook.facebook_parser import parse
-from util.facebook.facebook_parser import InvalidCallback
-from util.facebook.facebook_parser import Callback
-from util.facebook.facebook_parser import DATA_TYPE_MESSAGE
-from util.facebook.facebook_parser import DATA_TYPE_POSTBACK
+from util.facebook.webhook_callbacks import InvalidWebhookCallback
+from util.facebook.webhook_callbacks import WebhookCallback
+from util.facebook.callback_data import DATA_TYPE_MESSAGE
+from util.facebook.callback_data import DATA_TYPE_POSTBACK
 from requestors.facebook_get_started_button import GET_STARTED_PAYLOAD
 
 class RequestHandler(object):
@@ -13,7 +13,7 @@ class RequestHandler(object):
 
 	def handle(self, request):
 		callback = parse(request.json)
-		if type(callback) is InvalidCallback:
+		if type(callback) is InvalidWebhookCallback:
 			return "ok", 200
 		self._handle_callback(callback)
 		# Must send back 200 to facebook within 20 seconds

@@ -1,100 +1,18 @@
 # -*- coding: utf-8 -*-
-
-DATA_TYPE_MESSAGE = 'Message'
-DATA_TYPE_POSTBACK = 'Postback'
-
-class Callback(object):
-
-	def __init__(self, sender, recipient, data, page_id, time):
-		self.sender = sender
-		self.recipient = recipient
-		self.data = data # Array of Data
-		self.page_id = page_id
-		self.time = time
-
-
-class InvalidCallback(Callback):
-	pass
-
-
-class Data(object):
-
-	def __init__(self, data_type):
-		self.data_type = data_type
-
-
-class TextMessage(Data):
-
-	def __init__(self, mid, text, attachment, quick_reply):
-		super(TextMessage, self).__init__(DATA_TYPE_MESSAGE)
-		self.mid = mid #message id
-		self.text = text
-		self.attachment = attachment
-		self.quick_reply = quick_reply
-
-
-class Postback(Data):
-
-	def __init__(self, payload):
-		super(Postback, self).__init__(DATA_TYPE_POSTBACK)
-		self.payload = payload
-
-
-class Attachment(object):
-
-	def __init__(self, attachment_type, payload):
-		self.attachment_type = attachment_type
-		self.payload = payload
-
-	def get_audio(self):
-		if self.attachment_type is 'audio':
-			return self._get_url_from_payload()
-		return ''
-
-	def get_image(self):
-		if self.attachment_type is 'image':
-			return self._get_url_from_payload()
-		return ''
-
-	def get_video(self):
-		if self.attachment_type is 'video':
-			return self._get_url_from_payload()
-		return ''
-
-	def get_file(self):
-		if self.attachment_type is 'file':
-			return self._get_url_from_payload()
-		return ''
-
-	def _get_url_from_payload(self):
-		if self.payload is None:
-			return ''
-		return self.payload.get('url')
-
-	def get_location(self):
-		if self.attachment_type is 'location':
-			if self.payload is None:
-				return ''
-			coordinates = payload.get('coordinates')
-			if coordinates is None:
-				return ''
-			return coordinates['lat'], coordinates['long']
-		return ''
-
-
-class QuickReply(object):
-
-	def __init__(self, payload=None):
-		self.payload = payload
-
+from callback_data import TextMessage
+from callback_data import Postback
+from quick_reply import QuickReply
+from messages import Attachment
+from webhook_callbacks import InvalidWebhookCallback
+from webhook_callbacks import WebhookCallback
 
 def parse(data):
 	if _is_invalid_data(data):
-		return InvalidData()
+		return InvalidWebhookCallback()
 	return _get_callback(data)
 
 def _is_invalid_data(data):
-	return data['object'] != 'page'
+	return data.get('object') != 'page'
 
 def _get_callback(data):
 	sender = ''
@@ -102,7 +20,7 @@ def _get_callback(data):
 	page_id = ''
 	time = ''
 
-	entry = data['entry']
+	entry = data.get('entry')
 	for event in entry:
 		page_id = event.get('id')
 		time = event.get('time')
@@ -114,7 +32,7 @@ def _get_callback(data):
 				callback_data.append(_get_text_message(messaging_event))
 			elif 'postback' in messaging_event:
 				callback_data.append(_get_postback(messaging_event))
-	return Callback(sender, recipient, callback_data, page_id, time)
+	return WebhookCallback(sender, recipient, callback_data, page_id, time)
 
 def _get_text_message(messaging_event):
 	message = messaging_event['message']
