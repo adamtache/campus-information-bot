@@ -5,13 +5,10 @@ import os
 import requests
 import sys
 import uuid
-from prompt_toolkit import prompt
-from prompt_toolkit.history import InMemoryHistory
 
 WIT_API_HOST = os.getenv('WIT_URL', 'https://api.wit.ai')
 WIT_API_VERSION = os.getenv('WIT_API_VERSION', '20160516')
 DEFAULT_MAX_STEPS = 5
-INTERACTIVE_PROMPT = '> '
 LEARN_MORE = 'Learn more at https://wit.ai/docs/quickstart'
 
 class WitError(Exception):
@@ -185,35 +182,6 @@ class Wit(object):
             del self._sessions[session_id]
 
         return context
-
-    def interactive(self, context=None, max_steps=DEFAULT_MAX_STEPS):
-        """Runs interactive command line chat between user and bot. Runs
-        indefinately until EOF is entered to the prompt.
-
-        context -- optional initial context. Set to {} if omitted
-        max_steps -- max number of steps for run_actions.
-        """
-        if not self.actions:
-            self.throw_must_have_actions()
-        if max_steps <= 0:
-            raise WitError('max iterations reached')
-        if context is None:
-            context = {}
-
-        # input/raw_input are not interchangible between python 2 and 3
-        try:
-            input_function = raw_input
-        except NameError:
-            input_function = input
-
-        session_id = uuid.uuid1()
-        history = InMemoryHistory()
-        while True:
-            try:
-                message = prompt(INTERACTIVE_PROMPT, history=history, mouse_support=True).rstrip()
-            except (KeyboardInterrupt, EOFError):
-                return
-            context = self.run_actions(session_id, message, context, max_steps)
 
     def throw_if_action_missing(self, action_name):
         if action_name not in self.actions:
