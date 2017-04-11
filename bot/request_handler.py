@@ -8,8 +8,9 @@ from requestors.facebook_get_started_button import GET_STARTED_PAYLOAD
 
 class RequestHandler(object):
 
-	def __init__(self, bot):
+	def __init__(self, bot, wit_handler):
 		self.bot = bot
+		self.wit_handler = wit_handler
 
 	def handle(self, request):
 		callback = parse(request.json)
@@ -34,7 +35,7 @@ class RequestHandler(object):
 			self.bot.setup_facebook_user(sender)
 
 	def _handle_message(self, message, sender):
-		self.bot.reply_to(sender, message)
+		self.wit_handler.handle(session_id=sender, message=message)
 
 	def _handle_postback(self, postback, sender):
 		payload = postback.payload

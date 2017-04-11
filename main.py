@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 from bot.bot import CampusBot
-from flask import Flask, request
 from bot.request_handler import RequestHandler
+from wit.wit_handler import WitHandler
+from flask import Flask, request
+import requests
 from requests_toolbelt.adapters import appengine
- 
+
 # Use AppEngineAdapter to support GAE with requests
 appengine.monkeypatch()
 app = Flask(__name__)
 bot = CampusBot()
-request_handler = RequestHandler(bot)
+wit_handler = WitHandler()
+request_handler = RequestHandler(bot, wit_handler)
 
 @app.route('/', methods=['GET'])
 def get_webhook():
