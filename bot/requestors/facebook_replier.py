@@ -11,6 +11,14 @@ class Replier(object):
 		self.access_token = access_token
 		self.requestor = Requestor(FACEBOOK_REPLY_URL)
 
+	def wit_send(self, request, response):
+		recipient_id = request['session_id']
+		message = response['text']
+		params = self._get_params()
+		headers = self._get_headers()
+		payload = self._get_payload(recipient_id, message)
+		self.requestor.post(params, headers, payload)
+
 	def reply_to(self, recipient_id, message, user):
 		text = message.text + " " + user.first_name + " " + user.last_name
 		params = self._get_params()

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from bot.bot import CampusBot
 from bot.request_handler import RequestHandler
-from wit.wit_handler import WitHandler
 from flask import Flask, request
 import requests
 from requests_toolbelt.adapters import appengine
@@ -10,8 +9,7 @@ from requests_toolbelt.adapters import appengine
 appengine.monkeypatch()
 app = Flask(__name__)
 bot = CampusBot()
-wit_handler = WitHandler()
-request_handler = RequestHandler(bot, wit_handler)
+request_handler = RequestHandler(bot)
 
 @app.route('/', methods=['GET'])
 def get_webhook():

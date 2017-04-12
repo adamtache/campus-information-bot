@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 import re
+from bot.requestors import facebook_replier
 
-def get_actions():
+def get_actions(replier):
 	return {
-		'send': send,
+		'send': replier.wit_send,
 	}
-
-def send(request, response):
-    fb_id = request['session_id']
-    text = response['text']
