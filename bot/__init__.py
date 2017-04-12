@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Code modified from Google, licensed under the Apache License, Version 2.0
-from bot import CampusBot
+from bot import Bot
 from datastore import model_datastore
 from flask import current_app, Flask, request
 from request_handler import RequestHandler
