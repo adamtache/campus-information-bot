@@ -21,6 +21,7 @@
 *.ear
 env/
 lib/
+venv/
 
 # Logs and databases #
 ######################
