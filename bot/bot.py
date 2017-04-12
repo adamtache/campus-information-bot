@@ -7,7 +7,7 @@ from requestors.facebook_menu import Menu
 from requestors.facebook_replier import Replier
 from requestors.facebook_user import FacebookUserRequestor
 
-class CampusBot(object):
+class Bot(object):
 
 	def __init__(self):
 		self.access_token = FACEBOOK_ACCESS_TOKEN
