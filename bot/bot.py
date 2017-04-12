@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from util.tokens import FACEBOOK_ACCESS_TOKEN
 from models.user import User
 from requestors.facebook_get_started_button import GetStartedButton
 from requestors.facebook_greeter import Greeter
@@ -6,12 +7,10 @@ from requestors.facebook_menu import Menu
 from requestors.facebook_replier import Replier
 from requestors.facebook_user import FacebookUserRequestor
 
-ACCESS_TOKEN = "EAAGAoXpiPKIBAHLBTNSpikVIM4wfAJ2EvQrsKhvrzmmInGMEMblXbixYGR2cBiUrAv7ebA0HRDImyYp5VlMqZCREPASBWhWFQsu3ofdCBTdqJlIdGzrrJXDweZC6D9v1hDb9klXBZBS4JrVky1tOrfvoFyiQzPpwElB7vH7JwZDZD"
-
 class CampusBot(object):
 
 	def __init__(self):
-		self.access_token = ACCESS_TOKEN
+		self.access_token = FACEBOOK_ACCESS_TOKEN
 		self._create_components()
 		self._setup_components()
 
@@ -31,10 +30,10 @@ class CampusBot(object):
 		self._setup_user(user_json)
 
 	def _create_components(self):
-		self.replier = Replier(ACCESS_TOKEN)
-		self.greeter = Greeter(ACCESS_TOKEN)
-		self.get_started_button = GetStartedButton(ACCESS_TOKEN)
-		self.menu = Menu(ACCESS_TOKEN)
+		self.replier = Replier(self.access_token)
+		self.greeter = Greeter(self.access_token)
+		self.get_started_button = GetStartedButton(self.access_token)
+		self.menu = Menu(self.access_token)
 		self.user = None # User info not accessible via API until first interaction
 
 	def _setup_components(self):
