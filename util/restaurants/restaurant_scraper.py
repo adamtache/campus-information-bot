@@ -23,7 +23,7 @@ class RestaurantScraper(object):
 		restaurant_table_rows_html = self._get_all_restaurant_rows(restaurants_table_html)
 		dates_from_website = self._get_dates_listed_on_website(restaurants_table_html)
 		return self._create_restaurants_with_availabilities_for_this_week(
-			restaurant_table_rows_html, 
+			restaurant_table_rows_html,
 			dates_from_website,
 		)
 
@@ -99,16 +99,17 @@ class RestaurantScraper(object):
 		for opening_closing in opening_closing_datetimes:
 			availabilities.append(self._create_availability_for_date(
 				opening_closing,
+				date,
 			)
 		)
 		return availabilities
 
-	def _create_availability_for_date(self, opening_closing_datetimes):
+	def _create_availability_for_date(self, opening_closing_datetimes, date):
 		if len(opening_closing_datetimes) < 2:
-			return RestaurantAvailability(None, None)
+			return RestaurantAvailability(date, None, None)
 		opens_at = opening_closing_datetimes[0]
 		closes_at = opening_closing_datetimes[1]
-		return RestaurantAvailability(opens_at, closes_at)
+		return RestaurantAvailability(date, opens_at, closes_at)
 
 	def _get_opening_closing_datetimes(self, date, opening_closing_time_cell):
 		time_contents = opening_closing_time_cell.contents
@@ -139,6 +140,8 @@ class RestaurantScraper(object):
 		return (opens_at, closes_at)
 
 	def _create_datetime(self, time_text, date):
+		"""Creates timezone unaware datetime, as ndb on GAE only supports UTC and
+		not timezone aware datetimes."""
 		date_time = datetime.strptime(time_text.rstrip(), '%I:%M%p').time()
 		date_time = datetime.combine(date, date_time)
 		return datetime_util.datetime_with_current_year(date_time)

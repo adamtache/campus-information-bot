@@ -2,5 +2,6 @@
 from google.appengine.ext import ndb
 
 class RestaurantAvailability(ndb.Model):
+	date = ndb.DateProperty()
 	opens_at = ndb.DateTimeProperty()
 	closes_at = ndb.DateTimeProperty()

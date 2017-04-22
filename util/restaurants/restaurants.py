@@ -14,7 +14,8 @@ class Restaurant(object):
 
 class RestaurantAvailability(object):
 
-	def __init__(self, opens_at, closes_at):
+	def __init__(self, date, opens_at, closes_at):
+		self.date = date
 		self.opens_at = opens_at
 		self.closes_at = closes_at
 
@@ -22,6 +23,6 @@ class RestaurantAvailability(object):
 		return opens_at is None or closes_at is None
 
 	def __str__(self):
-		return self.opens_at.__str__() + " " + self.closes_at.__str__()
+		return self.opens_at.__str__() + " " + self.closes_at.__str__() + " on " + self.date.__str__()
 
 	__repr__ = __str__
