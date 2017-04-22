@@ -3,7 +3,7 @@ def get_context_and_entities(request):
 	return request['context'], request['entities']
 
 def get_first_entity_value(entities, entity):
-	if entity not in entities:
+	if entities is None or entity not in entities:
 		return None
 	value = entities[entity][0]['value']
 	if not value:
