@@ -3,7 +3,7 @@
 from bot import Bot
 from datastore import model_datastore
 from flask import current_app, Flask, request
-from request_handler import RequestHandler
+from handlers.request_handler import RequestHandler
 
 bot = Bot()
 request_handler = RequestHandler(bot)

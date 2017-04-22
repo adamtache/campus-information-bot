@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-from wit.wit import Wit
-from wit.actions.actions import get_actions
+from payload_handler import PostbackHandler
 from util.facebook.facebook_parser import parse
 from util.facebook.webhook_callbacks import InvalidWebhookCallback
 from util.facebook.webhook_callbacks import WebhookCallback
 from util.facebook.callback_data import DATA_TYPE_MESSAGE
 from util.facebook.callback_data import DATA_TYPE_POSTBACK
-from util.tokens import WIT_ACCESS_TOKEN
-from requestors.facebook_get_started_button import GET_STARTED_PAYLOAD
+from util.constants.tokens import WIT_ACCESS_TOKEN
+from wit.wit import Wit
+from wit.actions.actions import get_actions
 
 class RequestHandler(object):
 
@@ -17,6 +17,7 @@ class RequestHandler(object):
 			access_token=WIT_ACCESS_TOKEN,
 			actions=get_actions(bot.replier),
 		)
+		self.postback_handler = PostbackHandler(self.bot)
 
 	def handle(self, request):
 		callback = parse(request.json)
@@ -34,7 +35,7 @@ class RequestHandler(object):
 			if data_type is DATA_TYPE_MESSAGE:
 				self._handle_message(data, sender)
 			elif data_type is DATA_TYPE_POSTBACK:
-				self._handle_postback(data, sender)
+				self.postback_handler.handle(data, sender)
 
 	def _setup_fb_user_if_needed(self, sender):
 		if self.bot.user is None:
@@ -43,11 +44,3 @@ class RequestHandler(object):
 	def _handle_message(self, data, sender):
 		message = data.text
 		self.wit_client.run_actions(session_id=sender, message=message)
-
-	def _handle_postback(self, postback, sender):
-		payload = postback.payload
-		if payload == GET_STARTED_PAYLOAD:
-			self._handle_get_started(sender)
-
-	def _handle_get_started(self, sender):
-		self.bot.reply_welcome(sender)

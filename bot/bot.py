@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from util.tokens import FACEBOOK_ACCESS_TOKEN
+from util.constants.tokens import FACEBOOK_ACCESS_TOKEN
 from models.user import User
 from requestors.facebook_get_started_button import GetStartedButton
 from requestors.facebook_greeter import Greeter
@@ -14,8 +14,8 @@ class Bot(object):
 		self._create_components()
 		self._setup_components()
 
-	def reply_to(self, sender, message):
-		self.replier.reply_to(sender, message, self.user)
+	def reply_with(self, sender, message):
+		self.replier.reply_with(sender, message)
 
 	def reply_welcome(self, sender):
 		self.replier.reply_welcome(sender, self.user)
