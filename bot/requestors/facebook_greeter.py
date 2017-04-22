@@ -2,14 +2,13 @@
 import json
 
 from requestor import Requestor
-
-FACEBOOK_GREETER_URL = "https://graph.facebook.com/v2.6/me/messenger_profile?"
+from util.constants.facebook import GREETER_TEXT, GREETER_URL
 
 class Greeter(object):
 
 	def __init__(self, access_token):
 		self.access_token = access_token
-		self.requestor = Requestor(FACEBOOK_GREETER_URL)
+		self.requestor = Requestor(GREETER_URL)
 
 	def setup(self):
 		params = self._get_params()
@@ -32,10 +31,7 @@ class Greeter(object):
 			"greeting":[
 				{
 					"locale": "default",
-					"text": self._get_greeting_text()
+					"text": GREETER_TEXT
 				}
 		    ]
 		})
-
-	def _get_greeting_text(self):
-		return "Hello {{user_first_name}}! Welcome to Duke's campus chat bot. See the menu on the next page for what I can do. Enjoy!"

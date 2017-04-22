@@ -2,14 +2,13 @@
 import json
 
 from requestor import Requestor
-
-FACEBOOK_REPLY_URL =  "https://graph.facebook.com/v2.6/me/messages?"
+from util.constants.facebook import REPLY_URL, WELCOME_TEXT
 
 class Replier(object):
 
 	def __init__(self, access_token):
 		self.access_token = access_token
-		self.requestor = Requestor(FACEBOOK_REPLY_URL)
+		self.requestor = Requestor(REPLY_URL)
 
 	def wit_send(self, request, response):
 		recipient_id = request['session_id']
@@ -19,11 +18,10 @@ class Replier(object):
 		payload = self._get_payload(recipient_id, message)
 		self.requestor.post(params, headers, payload)
 
-	def reply_to(self, recipient_id, message, user):
-		text = message.text + " " + user.first_name + " " + user.last_name
+	def reply_with(self, recipient_id, message):
 		params = self._get_params()
 		headers = self._get_headers()
-		payload = self._get_payload(recipient_id, text)
+		payload = self._get_payload(recipient_id, message)
 		self.requestor.post(params, headers, payload)
 
 	def reply_welcome(self, recipient_id, user):
@@ -34,7 +32,7 @@ class Replier(object):
 		self.requestor.post(params, headers, payload)
 
 	def _get_welcome_text(self, user):
-		return "Hi " + user.first_name + " " + user.last_name + ". I'm so glad you decided to activate me. You can send a message or access my menu below. Have fun :)"
+		return "Hi " + user.first_name + " " + user.last_name + ". " + WELCOME_TEXT
 
 	def _get_params(self):
 		return {

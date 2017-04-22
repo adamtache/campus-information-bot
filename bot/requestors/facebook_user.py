@@ -2,8 +2,7 @@
 import json
 
 from requestor import Requestor
-
-FACEBOOK_USER_URL = "https://graph.facebook.com/v2.6/"
+from util.constants.facebook import USER_URL
 
 class FacebookUserRequestor(object):
 
@@ -12,7 +11,7 @@ class FacebookUserRequestor(object):
 		self.requestor = Requestor(self._get_url(user_id))
 
 	def _get_url(self, user_id):
-		return FACEBOOK_USER_URL + user_id + "?"
+		return USER_URL + user_id + "?"
 
 	def get_user_json(self):
 		params = self._get_params()

@@ -2,14 +2,13 @@
 import json
 
 from requestor import Requestor
-
-FACEBOOK_MENU_URL = "https://graph.facebook.com/v2.6/me/messenger_profile?"
+from util.constants.facebook import MENU_URL, RESTAURANT_AVAILABILITIES_PAYLOAD
 
 class Menu(object):
 
 	def __init__(self, access_token):
 		self.access_token = access_token
-		self.requestor = Requestor(FACEBOOK_MENU_URL)
+		self.requestor = Requestor(MENU_URL)
 
 	def setup(self):
 		self._make_post_request()
@@ -60,36 +59,12 @@ class Menu(object):
 
 	def _get_menu_buttons(self):
 		return [
-			self._get_directions_button(),
-			self._get_hours_button(),
-			self._get_buses_button(),
-			self._get_dining_button(),
+			self._get_restaurant_availabilities_button(),
 		]
 
-	def _get_directions_button(self):
+	def _get_restaurant_availabilities_button(self):
 		return {
-			"title": "Directions",
+			"title": "Restaurant Availabilities",
 			"type": "postback",
-			"payload": "DIRECTIONS_PAYLOAD"
-		}
-
-	def _get_hours_button(self):
-		return {
-			"title": "Hours",
-			"type": "postback",
-			"payload": "HOURS_PAYLOAD"
-		}
-
-	def _get_buses_button(self):
-		return {
-			"title": "Buses",
-			"type": "postback",
-			"payload": "BUSES_PAYLOAD"
-		}
-
-	def _get_dining_button(self):
-		return {
-			"title": "Dining",
-			"type": "postback",
-			"payload": "DINING_PAYLOAD"
+			"payload": RESTAURANT_AVAILABILITIES_PAYLOAD
 		}
