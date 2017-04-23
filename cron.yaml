@@ -1,0 +1,7 @@
+cron:
+- description: daily restaurant scraping
+  url: /cron
+  schedule: every 24 hours
+  retry_parameters:
+    min_backoff_seconds: 500
+    max_doublings: 5

@@ -1,32 +1,20 @@
 # -*- coding: utf-8 -*-
-import webapp2
-
 from datastore.models.restaurants.restaurant import Restaurant
 from datastore.models.restaurants.restaurant_availability import RestaurantAvailability
 from google.appengine.ext import ndb
-from util.restaurants.restaurant_scraper import RestaurantScraper
+from util.restaurants import restaurant_scraper
 
 DEFAULT_RESTAURANTS_NAME = 'default_restaurants'
 
-def get_restaurant(restaurant_name):
-	return Restaurant.query(Restaurant.name == restaurant_name)
+def scrape_and_add_to_db():
+	for restaurant in restaurant_scraper.get_restaurants():
+		_add_restaurant_to_db(restaurant)
 
-def get_all_restaurants():
-	q = Restaurant.query().order(-Restaurant.name)
-	restaurants = []
-	for restaurant in q:
-		restaurants.append(restaurant)
-	return restaurants
-
-def post():
-	for restaurant in RestaurantScraper().get_restaurants():
-		_post_restaurant_to_db(restaurant)
-
-def _post_restaurant_to_db(restaurant_to_post):
+def _add_restaurant_to_db(restaurant_to_add):
 	parent = _get_restaurant_key(DEFAULT_RESTAURANTS_NAME)
-	name = restaurant_to_post.name
+	name = restaurant_to_add.name
 	availabilities = _converted_availabilities_for_datastore(
-		restaurant_to_post.availabilities_this_week,
+		restaurant_to_add.availabilities_this_week,
 	)
 	restaurant = Restaurant(parent=parent, name=name, availabilities=availabilities)
 	restaurant.put()

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datastore.util.restaurants import restaurants_handler
+from util.datastore import restaurants_util
 from datetime import datetime
 from util import datetime_util
 from util.restaurants import similarity
@@ -34,8 +34,8 @@ def _get_updated_context(context, entities):
 
 def _updated_context_using_restaurant_and_datetime(context, restaurant_raw, datetime_raw):
 	restaurant = similarity.get_closest_match(
-		restaurant_raw, 
-		restaurants_handler.get_all_restaurants(),
+		restaurant_raw,
+		restaurants_util.get_all_restaurants(),
 	)
 	if restaurant is None:
 		return _updated_context_with_no_restaurant_match_found(context)
