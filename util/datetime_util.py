@@ -17,7 +17,7 @@ def get_datetime_localized_to_east_coast(datetime):
 def get_readable_datetime_string(datetime):
 	if datetime is None:
 		raise ValueError('Did not provide valid datetime string')
-	return datetime.strftime("%B %d, %Y at %I:%M%p")
+	return datetime.strftime("%B %d, %Y at %I:%M %p")
 
 def get_readable_date(datetime):
 	if datetime is None:

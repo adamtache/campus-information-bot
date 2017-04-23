@@ -2,6 +2,7 @@
 from datastore.util.restaurants import restaurants_handler
 from datetime import datetime
 from util import datetime_util
+from util.restaurants import similarity
 from util.restaurants import availability_checker
 from wit_actions import get_context_and_entities
 from wit_actions import get_first_entity_value
@@ -32,19 +33,14 @@ def _get_updated_context(context, entities):
 	return context
 
 def _updated_context_using_restaurant_and_datetime(context, restaurant_raw, datetime_raw):
-	restaurant = _get_matching_restaurant_from_db(restaurant_raw)
+	restaurant = similarity.get_closest_match(
+		restaurant_raw, 
+		restaurants_handler.get_all_restaurants(),
+	)
 	if restaurant is None:
 		return _updated_context_with_no_restaurant_match_found(context)
 	datetime = datetime_util.unicode_to_datetime(datetime_raw)
 	return _updated_context_with_restaurant_availability(context, restaurant, datetime)
-
-def _get_matching_restaurant_from_db(restaurant_raw):
-	for restaurant in restaurants_handler.get_all_restaurants():
-		restaurant_name = restaurant.name
-		if restaurant_name == restaurant_raw:
-			# TODO: Look for most similar restaurant. Right now looks for exact match.
-			return restaurant
-	return None
 
 def _updated_context_with_restaurant_availability(context, restaurant, datetime):
 	context[availability_key] = availability_checker.get_availability_east_coast(restaurant, datetime)
