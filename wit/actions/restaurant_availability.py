@@ -39,8 +39,13 @@ def _updated_context_using_restaurant_and_datetime(context, restaurant_raw, date
 	)
 	if restaurant is None:
 		return _updated_context_with_no_restaurant_match_found(context)
-	datetime = datetime_util.unicode_to_datetime(datetime_raw)
+	datetime = _get_datetime(datetime_raw)
 	return _updated_context_with_restaurant_availability(context, restaurant, datetime)
+
+def _get_datetime(datetime_raw):
+	if datetime_raw is None:
+		return datetime_util.get_datetime_localized_to_east_coast(datetime.now())
+	return datetime_util.unicode_to_datetime(datetime_raw)
 
 def _updated_context_with_restaurant_availability(context, restaurant, datetime):
 	context[availability_key] = availability_checker.get_availability_east_coast(restaurant, datetime)
