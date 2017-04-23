@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
-import logging
 import urllib
 
 from util.requests import http_requestor
-from google.appengine.api import urlfetch
 
 class Requestor(object):
 
