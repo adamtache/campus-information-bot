@@ -4,8 +4,8 @@ import urllib
 
 from bs4 import BeautifulSoup, element
 from datetime import date, datetime, time, timedelta
-from restaurants import Restaurant
-from restaurants import RestaurantAvailability
+from models.availability import Availability
+from models.restaurants.restaurant import Restaurant
 from util import datetime_util
 
 DUKE_DINING_MENUS_HOURS_URL = 'https://studentaffairs.duke.edu/forms/dining/menus-hours/'
@@ -99,10 +99,10 @@ def _create_availabilities(date, opening_closing_time_cell):
 
 def _create_availability_for_date(opening_closing_datetimes, date):
 	if len(opening_closing_datetimes) < 2:
-		return RestaurantAvailability(date, None, None)
+		return Availability(date, None, None)
 	opens_at = opening_closing_datetimes[0]
 	closes_at = opening_closing_datetimes[1]
-	return RestaurantAvailability(date, opens_at, closes_at)
+	return Availability(date, opens_at, closes_at)
 
 def _get_opening_closing_datetimes(date, opening_closing_time_cell):
 	time_contents = opening_closing_time_cell.contents
