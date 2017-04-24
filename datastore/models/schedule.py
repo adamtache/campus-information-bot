@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from availability import Availability
 from google.appengine.ext import ndb
-from datastore.models.availability import Availability
 
-class Restaurant(ndb.Model):
+class Schedule(ndb.Model):
 	name = ndb.StringProperty()
 	availabilities = ndb.StructuredProperty(Availability, repeated=True)

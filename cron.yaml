@@ -1,5 +1,5 @@
 cron:
-- description: daily restaurant scraping
+- description: daily schedule scraping
   url: /cron
   schedule: every 24 hours
   retry_parameters:

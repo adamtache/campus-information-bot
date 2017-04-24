@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from util import availability_util
+import availability_util
+
 from util.datetime_util import are_same_date
 from util.datetime_util import get_datetime_localized_to_east_coast
 
@@ -7,9 +8,9 @@ CLOSED = "closed"
 OPEN = "open"
 UNKNOWN = "unknown to be open or closed"
 
-def get_availability_east_coast(restaurant, datetime):
-	"""Returns availability of restaurant at datetime."""
-	availabilities = restaurant.availabilities
+def get_availability_east_coast(schedule, datetime):
+	"""Returns availability of schedule at datetime."""
+	availabilities = schedule.availabilities
 	for avail in availabilities:
 		# ndb on GAE only supports UTC and can't handle timezone aware datetimes
 		opens_at = get_datetime_localized_to_east_coast(avail.opens_at)
@@ -28,9 +29,9 @@ def get_availability_east_coast(restaurant, datetime):
 			return last_date_available_string
 	return CLOSED
 
-def get_availabilities(restaurant, date):
+def get_availabilities(schedule, date):
 	availabilities = []
-	for avail in restaurant.availabilities:
+	for avail in schedule.availabilities:
 		opens_at = avail.opens_at
 		if opens_at is None:
 			continue

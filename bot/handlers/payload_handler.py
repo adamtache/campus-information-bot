@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from util.constants.facebook import GET_STARTED_PAYLOAD, RESTAURANT_AVAILABILITIES_PAYLOAD, RESTAURANT_AVAILABILITIES_RESPONSE
+from util.constants.facebook import GET_STARTED_PAYLOAD, AVAILABILITIES_PAYLOAD, AVAILABILITIES_RESPONSE, HOURS_PAYLOAD, HOURS_RESPONSE
 
 class PostbackHandler(object):
 
@@ -9,12 +9,8 @@ class PostbackHandler(object):
 	def handle(self, postback, sender):
 		payload = postback.payload
 		if payload == GET_STARTED_PAYLOAD:
-			self._handle_get_started(sender)
-		elif payload == RESTAURANT_AVAILABILITIES_PAYLOAD:
-			self._handle_restaurant_availabilities(sender)
-	
-	def _handle_get_started(self, sender):
-		self.bot.reply_welcome(sender)
-
-	def _handle_restaurant_availabilities(self, sender):
-		self.bot.reply_with(sender, RESTAURANT_AVAILABILITIES_RESPONSE)
+			self.bot.reply_welcome(sender)
+		elif payload == AVAILABILITIES_PAYLOAD:
+			self.bot.reply_with(sender, AVAILABILITIES_RESPONSE)
+		elif payload == HOURS_PAYLOAD:
+			self.bot.reply_with(sender, HOURS_RESPONSE)

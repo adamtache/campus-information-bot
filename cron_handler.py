@@ -1,13 +1,21 @@
 # -*- coding: utf-8 -*-
 import webapp2
 
-from cron_handlers import restaurant_handler
+from datastore.handlers import schedules_handler
+from util.scrapers.food_truck_scraper import FoodTruckScraper
+from util.scrapers.restaurant_scraper import RestaurantScraper
 from google.appengine.ext.webapp.util import run_wsgi_app
+
+scrapers_to_use = [
+	FoodTruckScraper(),
+	RestaurantScraper(),
+]
 
 class CronHandler(webapp2.RequestHandler):
 
 	def get(self):
-		restaurant_handler.scrape_and_add_to_db()
+		for scraper in scrapers_to_use:
+			schedules_handler.scrape_and_put_in_db(scraper)
 
 app = webapp2.WSGIApplication([
     (r'/cron', CronHandler),

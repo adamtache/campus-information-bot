@@ -2,7 +2,7 @@
 import json
 
 from requestor import Requestor
-from util.constants.facebook import MENU_URL, RESTAURANT_AVAILABILITIES_PAYLOAD
+from util.constants.facebook import AVAILABILITIES_PAYLOAD, HOURS_PAYLOAD, MENU_URL
 
 class Menu(object):
 
@@ -59,12 +59,20 @@ class Menu(object):
 
 	def _get_menu_buttons(self):
 		return [
-			self._get_restaurant_availabilities_button(),
+			self._get_hours_button(),
+			self._get_availabilities_button(),
 		]
 
-	def _get_restaurant_availabilities_button(self):
+	def _get_hours_button(self):
 		return {
-			"title": "Restaurant Availabilities",
+			"title": "Hours",
 			"type": "postback",
-			"payload": RESTAURANT_AVAILABILITIES_PAYLOAD
+			"payload": HOURS_PAYLOAD
+		}
+
+	def _get_availabilities_button(self):
+		return {
+			"title": "Availabilities",
+			"type": "postback",
+			"payload": AVAILABILITIES_PAYLOAD
 		}
